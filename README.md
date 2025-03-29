@@ -264,3 +264,32 @@ If you make any changes to your workflows, they are saved to the workflows folde
 ![image](https://github.com/user-attachments/assets/c598aa04-521c-41d3-9357-34eccbc916bb)
 
 This means the easiest way would be to download the JSON flow from that folder and drag it to the ComfyUI screen if you restart your runtime environment. This way you are being safe.
+
+
+
+## Wan2.1 I2V Setup Note
+
+1. Drag the I2V workflow (from https://comfyanonymous.github.io/ComfyUI_examples/wan/image_to_video_wan_example.json) that we downloaded before to the ComfyUI screen and adjust the models again.
+   
+   Note: This flow adds a clip_vision model but we downloaded that before.
+   
+   Before starting you can add the video output mp4 as we did before.
+   
+   ![image](https://github.com/user-attachments/assets/b3df833f-6621-430c-a315-f962742c78ff)
+
+2. Upload an image and click on Run
+   
+   ![image](https://github.com/user-attachments/assets/1b0407eb-1800-44b3-9520-10c01be7a017)
+   ![image](https://github.com/user-attachments/assets/c36aa508-94df-45b4-be23-3004e8de754b)
+   ![image](https://github.com/user-attachments/assets/00f1b1cd-c5c9-4c6b-9bf3-d0728c9af41a)
+
+A 512x512 2 second clip took 344.84 seconds with the A100 GPU. (input size was 1500x1500, with smaller images it takes around 90 seconds if you select 512x512)
+
+Not the best result but on first shot with a random prompt and definitely fun to play around with ;-)... 
+https://github.com/user-attachments/assets/5ad49559-f1b5-443b-aaca-18d26695a54a
+
+Note: To improve the output you should input the image as the same size as the output size you define.
+
+
+
+
