@@ -17,6 +17,9 @@ drive.mount('/content/drive')
 ```
 
 And then start ComfyUI (skip to the code that runs ComfyUI with Cloudflare).
+Select the A100 graphics card: 
+![image](https://github.com/user-attachments/assets/59fcfbea-53f4-4ccd-a316-9aad17fcf977)
+
 
 ## 1. Installing ComfyUI and connecting it to your Drive (ONLY FOR THE FIRST TIME!!):
 
