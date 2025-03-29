@@ -4,7 +4,7 @@ Requirements
 1. First you need to sign up for a Google Colab Pro Account ($10 per month as I am writing this) - which is perfectly fine and gives you 100 Runtime hours per month and access to more than enough high power GPUs
 2. Instead of having to downlaod all the models locally every time I would recommend you to store all of the folders and dependencies in your Google Drive (Account associated to the Colab Pro) so you have a way to store the outputs and save the models without having to redownload them every time. You definitely need a paid account here as these models combined are too large for the free account. 40-50 GB of free storage in your drive to have a safety net. 
 
-You can follow the ipynb notebook thats in the folder here or simply follow this Readme. Code is added here as well.
+You can use this guide and setup your own ipynb Notebook
 
 Now you have to install ComfyUI once after thats done if you want to restart the instance you just have to enter:
 
@@ -16,17 +16,103 @@ drive.mount('/content/drive')
 
 And then start Comfy UI (skip to the code that runs ComfyUI with Cloudflare) 
 
+1. step: Installing ComfyUI and connecting it to your Drive (ONLY FOR THE FIRST TIME!!):
+
+# #@title Environment Setup
+
+from pathlib import Path
+
+OPTIONS = {}
+
+USE_GOOGLE_DRIVE = True  #@param {type:"boolean"}
+UPDATE_COMFY_UI = True  #@param {type:"boolean"}
+USE_COMFYUI_MANAGER = True  #@param {type:"boolean"}
+INSTALL_CUSTOM_NODES_DEPENDENCIES = True  #@param {type:"boolean"}
+OPTIONS['USE_GOOGLE_DRIVE'] = USE_GOOGLE_DRIVE
+OPTIONS['UPDATE_COMFY_UI'] = UPDATE_COMFY_UI
+OPTIONS['USE_COMFYUI_MANAGER'] = USE_COMFYUI_MANAGER
+OPTIONS['INSTALL_CUSTOM_NODES_DEPENDENCIES'] = INSTALL_CUSTOM_NODES_DEPENDENCIES
+
+current_dir = !pwd
+WORKSPACE = "/content/ComfyUI"
+
+if OPTIONS['USE_GOOGLE_DRIVE']:
+    !echo "Mounting Google Drive..."
+    %cd /
+
+    from google.colab import drive
+    drive.mount('/content/drive')
+
+    WORKSPACE = "/content/drive/MyDrive/ComfyUI"
+    %cd /content/drive/MyDrive
+
+![ ! -d $WORKSPACE ] && echo -= Initial setup ComfyUI =- && git clone https://github.com/comfyanonymous/ComfyUI
+%cd $WORKSPACE
+
+if OPTIONS['UPDATE_COMFY_UI']:
+  !echo -= Updating ComfyUI =-
+
+  # Correction of the issue of permissions being deleted on Google Drive.
+  ![ -f ".ci/nightly/update_windows/update_comfyui_and_python_dependencies.bat" ] && chmod 755 .ci/nightly/update_windows/update_comfyui_and_python_dependencies.bat
+  ![ -f ".ci/nightly/windows_base_files/run_nvidia_gpu.bat" ] && chmod 755 .ci/nightly/windows_base_files/run_nvidia_gpu.bat
+  ![ -f ".ci/update_windows/update_comfyui_and_python_dependencies.bat" ] && chmod 755 .ci/update_windows/update_comfyui_and_python_dependencies.bat
+  ![ -f ".ci/update_windows_cu118/update_comfyui_and_python_dependencies.bat" ] && chmod 755 .ci/update_windows_cu118/update_comfyui_and_python_dependencies.bat
+  ![ -f ".ci/update_windows/update.py" ] && chmod 755 .ci/update_windows/update.py
+  ![ -f ".ci/update_windows/update_comfyui.bat" ] && chmod 755 .ci/update_windows/update_comfyui.bat
+  ![ -f ".ci/update_windows/README_VERY_IMPORTANT.txt" ] && chmod 755 .ci/update_windows/README_VERY_IMPORTANT.txt
+  ![ -f ".ci/update_windows/run_cpu.bat" ] && chmod 755 .ci/update_windows/run_cpu.bat
+  ![ -f ".ci/update_windows/run_nvidia_gpu.bat" ] && chmod 755 .ci/update_windows/run_nvidia_gpu.bat
+
+  !git pull
+
+!echo -= Install dependencies =-
+!pip3 install accelerate
+!pip3 install einops transformers>=4.28.1 safetensors>=0.4.2 aiohttp pyyaml Pillow scipy tqdm psutil tokenizers>=0.13.3
+!pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+!pip3 install torchsde
+!pip3 install kornia>=0.7.1 spandrel soundfile sentencepiece
+
+if OPTIONS['USE_COMFYUI_MANAGER']:
+  %cd custom_nodes
+
+  # Correction of the issue of permissions being deleted on Google Drive.
+  ![ -f "ComfyUI-Manager/check.sh" ] && chmod 755 ComfyUI-Manager/check.sh
+  ![ -f "ComfyUI-Manager/scan.sh" ] && chmod 755 ComfyUI-Manager/scan.sh
+  ![ -f "ComfyUI-Manager/node_db/dev/scan.sh" ] && chmod 755 ComfyUI-Manager/node_db/dev/scan.sh
+  ![ -f "ComfyUI-Manager/node_db/tutorial/scan.sh" ] && chmod 755 ComfyUI-Manager/node_db/tutorial/scan.sh
+  ![ -f "ComfyUI-Manager/scripts/install-comfyui-venv-linux.sh" ] && chmod 755 ComfyUI-Manager/scripts/install-comfyui-venv-linux.sh
+  ![ -f "ComfyUI-Manager/scripts/install-comfyui-venv-win.bat" ] && chmod 755 ComfyUI-Manager/scripts/install-comfyui-venv-win.bat
+
+  ![ ! -d ComfyUI-Manager ] && echo -= Initial setup ComfyUI-Manager =- && git clone https://github.com/ltdrdata/ComfyUI-Manager
+  %cd ComfyUI-Manager
+  !git pull
+
+%cd $WORKSPACE
+
+if OPTIONS['INSTALL_CUSTOM_NODES_DEPENDENCIES']:
+  !echo -= Install custom nodes dependencies =-
+  !pip install GitPython
+  !python custom_nodes/ComfyUI-Manager/cm-cli.py restore-dependencies
 
 
 
-Install torchsde
+
+2. step: Install torchsde
+
 !pip install torchsde
 
+3. step: go to the models folder
 
+
+
+4. step: install all the models we need within comfyUI   
 ## Installing the Models 
 
 You can basically install what you want but stick to thge comfyUI guide here it perfectly explains what you need to install for the sample json workflows to work and what you have to install and in which folders you have to store it.
 https://comfyanonymous.github.io/ComfyUI_examples/wan/
+
+
+
 
 ## Text-to-Video Models
 ```bash
@@ -68,7 +154,38 @@ wget -c https://comfyanonymous.github.io/ComfyUI_examples/wan/image_to_video_wan
 
 
 
+5. step: Start ComfyUI
 
+!wget -P ~ https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+!dpkg -i ~/cloudflared-linux-amd64.deb
+
+import subprocess
+import threading
+import time
+import socket
+import urllib.request
+
+def iframe_thread(port):
+  while True:
+      time.sleep(0.5)
+      sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+      result = sock.connect_ex(('127.0.0.1', port))
+      if result == 0:
+        break
+      sock.close()
+  print("\nComfyUI finished loading, trying to launch cloudflared (if it gets stuck here cloudflared is having issues)\n")
+
+  p = subprocess.Popen(["cloudflared", "tunnel", "--url", "http://127.0.0.1:{}".format(port)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+  for line in p.stderr:
+    l = line.decode()
+    if "trycloudflare.com " in l:
+      print("This is the URL to access ComfyUI:", l[l.find("http"):], end='')
+    #print(l, end='')
+
+
+threading.Thread(target=iframe_thread, daemon=True, args=(8188,)).start()
+
+!python /content/ComfyUI/main.py --dont-print-server 
 
 
 
@@ -148,4 +265,11 @@ You can mess with the settings here to increase the resolution as well as the le
 
 Since we are connected to an A100 it can easily do that yet it takes some time be aware of that. 
 On the SaveAnimatedWEBP module it tells you you much fps the generation is (currently 16fps) - which means the length parameter of 33 is about a 2 second long video. You can calculate for yourself what you need to enter and how long its going to be. Resolution change the width to 1280 and height to 720 for generating 720p HD videos. 
+
+Note: takes around 7 minutes with the A100 and a 2 second 720p video. 
+
+By the way if you make any changes to your workflows - they are getting saved to the workflows folder within ComfyUI
+![image](https://github.com/user-attachments/assets/c598aa04-521c-41d3-9357-34eccbc916bb)
+
+This means the easiest way would be to download the json flow from that folder and drag it to the comfyUI screen if you restart your runtime environment. THis way 
 
