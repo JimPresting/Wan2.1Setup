@@ -183,7 +183,7 @@ def iframe_thread(port):
     #print(l, end='')
 
 threading.Thread(target=iframe_thread, daemon=True, args=(8188,)).start()
-
+#ADJUST THIS PATH BASED ON YOUR INSTALLATION
 !python /content/ComfyUI/main.py --dont-print-server
 ```
 
