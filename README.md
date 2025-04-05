@@ -22,7 +22,7 @@ Select the A100 graphics card (or any other you can directly see their VRAM when
 ![image](https://github.com/user-attachments/assets/59fcfbea-53f4-4ccd-a316-9aad17fcf977)
 
 
-This is in German now but you can see the hourly rates a certain card costs you with the settings you have - a T4 with 15GB of GPU RAM uses about 1.44 hours. With advanced RAM its 1.67 - I think to minimize costs you can go with a T4 and use normal RAM. 
+This is in German now but you can see the hourly rates a certain card costs you with the settings you have - a T4 with 15GB of GPU RAM uses about 1.44 hours. With advanced RAM its 1.67 - I think to minimize costs you can go with a T4 and use normal RAM. You have to click into the usage field itself not the drop down selector to the right to see that. 
 
 
 ![Screenshot 2025-04-05 123120](https://github.com/user-attachments/assets/8ada20a6-2b6a-423d-a434-777d49c94291)
