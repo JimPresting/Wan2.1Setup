@@ -27,6 +27,9 @@ This is in German now but you can see the hourly rates a certain card costs you 
 
 ![Screenshot 2025-04-05 123120](https://github.com/user-attachments/assets/8ada20a6-2b6a-423d-a434-777d49c94291)
 
+Also make sure that under Manage Sessions you always just have one active notebook. Otherwise it constantly takes from your monthly usage credits... (if you open a new Colab Notebook and did NOT selected disconnect and delete runtime)
+![image](https://github.com/user-attachments/assets/bc82183a-6c7c-40b8-a338-aceb30a0f7c2)
+
 
 ## 1. Installing ComfyUI and connecting it to your Drive (ONLY FOR THE FIRST TIME!!):
 
