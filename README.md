@@ -17,9 +17,15 @@ drive.mount('/content/drive')
 ```
 
 And then start ComfyUI (skip to the code that runs ComfyUI with Cloudflare).
-Select the A100 graphics card: 
+Select the A100 graphics card (or any other you can directly see their VRAM when clicking on it): 
 ![image](https://github.com/user-attachments/assets/564d87c6-3937-4f4d-b242-8e9f3224b200)
 ![image](https://github.com/user-attachments/assets/59fcfbea-53f4-4ccd-a316-9aad17fcf977)
+
+
+This is in German now but you can see the hourly rates a certain card costs you with the settings you have - a T4 with 15GB of GPU RAM uses about 1.44 hours. With advanced RAM its 1.67 - I think to minimize costs you can go with a T4 and use normal RAM. 
+
+
+![Screenshot 2025-04-05 123120](https://github.com/user-attachments/assets/8ada20a6-2b6a-423d-a434-777d49c94291)
 
 
 ## 1. Installing ComfyUI and connecting it to your Drive (ONLY FOR THE FIRST TIME!!):
